@@ -17,9 +17,13 @@ console.log('Comenzando Node Send');
 const port = process.env.PORT || 4000;
 // -------------------- //
 
+// ---- RUTAS APP ---- //
+app.use('/api/usuarios', require('./routes/usuarios'));
+// ------------------- //
+
 // ---- INICIAR LA APP ---- //
 app.listen(port, '0.0.0.0', () => {
-	console.log(`El servidor esta funcionando en el puerto ${port}`);
+    console.log(`El servidor esta funcionando en el puerto ${port}`);
 });
 // ------------------------ //
 
