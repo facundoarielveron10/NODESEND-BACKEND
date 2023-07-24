@@ -1,12 +1,12 @@
 // ---- IMPORTACIONES ---- //
-const Usuario = require('../models/Usuario');
+const Usuario = require('../models/UsuarioModel');
 const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 // ----------------------- //
 
 // ---- CONTROLADOR DE USUARIOS ---- //
 exports.nuevoUsuario = async (req, res) => {
-    const { nombre, email, password } = req.body;
+    const { email, password } = req.body;
 
     // MOSTRAR ERRORES DE EXPRESS VALIDATOR
     const errores = validationResult(req);
@@ -34,10 +34,10 @@ exports.nuevoUsuario = async (req, res) => {
         usuario.password = await bcrypt.hash(password, salt);
 
         await usuario.save();
+
+        res.json({ msg: 'Usuario Creado Correctamente' });
     } catch (error) {
         console.log(error);
     }
-
-    res.json({ msg: 'Usuario Creado Correctamente' });
 };
 // --------------------------------- //
