@@ -17,6 +17,10 @@ console.log('Comenzando Node Send');
 const port = process.env.PORT || 4000;
 // -------------------- //
 
+// ---- HABILITAR JSON ---- //
+app.use(express.json());
+// ------------------------ //
+
 // ---- RUTAS APP ---- //
 app.use('/api/usuarios', require('./routes/usuarios'));
 // ------------------- //
