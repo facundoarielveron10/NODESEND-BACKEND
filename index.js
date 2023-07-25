@@ -25,11 +25,12 @@ app.use(express.json());
 app.use('/api/usuarios', require('./routes/UsuariosRoutes'));
 app.use('/api/auth', require('./routes/AuthRoutes'));
 app.use('/api/enlaces', require('./routes/EnlacesRoutes'));
+app.use('/api/archivos', require('./routes/ArchivosRoutes'));
 // ------------------- //
 
 // ---- INICIAR LA APP ---- //
 app.listen(port, '0.0.0.0', () => {
-	console.log(`El servidor esta funcionando en el puerto ${port}`);
+    console.log(`El servidor esta funcionando en el puerto ${port}`);
 });
 // ------------------------ //
 

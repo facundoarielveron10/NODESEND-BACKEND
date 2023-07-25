@@ -8,7 +8,6 @@ module.exports = (req, res, next) => {
     // VERIFICAMOS QUE EXISTA EL JWT
     const authHeader = req.get('Authorization');
     if (!authHeader) {
-        res.status(401).json({ msg: 'Token No Valido' });
         return next();
     }
 
