@@ -2,16 +2,21 @@
 
 // ---- EXPRESS ---- //
 const express = require('express');
-const conectarDB = require('./config/database');
-
 const app = express();
 // ----------------- //
 
 // ---- CONECTAR DB ---- //
+const conectarDB = require('./config/database');
 conectarDB();
 // --------------------- //
 
-console.log('Comenzando Node Send');
+// ---- HABILITAR URLS (CORS) ---- //
+const cors = require('cors');
+const opcionesCors = {
+    origin: process.env.FRONTEND_URL,
+};
+app.use(cors(opcionesCors));
+// ------------------------------- //
 
 // ---- PUERTO APP ---- //
 const port = process.env.PORT || 4000;
