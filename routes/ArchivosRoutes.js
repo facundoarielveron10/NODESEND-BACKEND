@@ -15,8 +15,12 @@ const router = express.Router();
 // POST
 router.post('/', auth, ArchivosController.subirArchivo);
 
-// DELETE
-router.delete('/:id', ArchivosController.eliminarArchivo);
+// GET
+router.get(
+    '/:archivo',
+    ArchivosController.descargar,
+    ArchivosController.eliminarArchivo
+);
 // --------------------------- //
 
 // ---- EXPORTACIONES ---- //

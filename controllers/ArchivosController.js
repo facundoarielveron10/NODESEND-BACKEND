@@ -1,4 +1,5 @@
 // ---- IMPORTACIONES ---- //
+const Enlaces = require('../models/EnlacesModel');
 const multer = require('multer');
 const shortid = require('shortid');
 const fs = require('fs');
@@ -41,14 +42,34 @@ exports.subirArchivo = (req, res, next) => {
 };
 
 exports.eliminarArchivo = (req, res) => {
-    console.log(req.archivo);
-
     try {
         fs.unlinkSync(__dirname + `/../uploads/${req.archivo}`);
-        console.log('Archivo eliminado');
     } catch (error) {
         res.status(404).json({ msg: 'Hubo un error al eliminar el archivo' });
         console.log(error);
+    }
+};
+
+exports.descargar = async (req, res, next) => {
+    const { archivo } = req.params;
+    // Obtener el enlace del archivo
+    const enlace = await Enlaces.findOne({ nombre: archivo });
+    // Buscamos el archivo a descargar
+    const ubicacionArchivo = __dirname + '/../uploads/' + archivo;
+    // Le permitimos descargar el archivo
+    res.download(ubicacionArchivo);
+    // Eliminar el archivo si es necesario
+    const { descargas, nombre } = enlace;
+
+    if (descargas === 1) {
+        // ELIMINAR EL ARCHIVO
+        req.archivo = nombre;
+        // ELIMINAR LA ENTRADA DE LA BASE DE DATOS
+        await Enlaces.findOneAndRemove(enlace.id);
+        next();
+    } else {
+        enlace.descargas--;
+        await enlace.save();
     }
 };
 // -------------------------------------- //

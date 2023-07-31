@@ -26,6 +26,10 @@ const port = process.env.PORT || 4000;
 app.use(express.json());
 // ------------------------ //
 
+// ---- HABILITAR CARPETA PUBLICA ---- //
+app.use(express.static('uploads'));
+// ----------------------------------- //
+
 // ---- RUTAS APP ---- //
 app.use('/api/usuarios', require('./routes/UsuariosRoutes'));
 app.use('/api/auth', require('./routes/AuthRoutes'));

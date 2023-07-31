@@ -1,6 +1,5 @@
 // ---- IMPORTACIONES ---- //
 const EnlacesController = require('../controllers/EnlacesController');
-const ArchivosController = require('../controllers/ArchivosController');
 const { check } = require('express-validator');
 // ----------------------- //
 
@@ -16,23 +15,19 @@ const router = express.Router();
 // ---- RUTAS DE ENLACES ---- //
 // POST
 router.post(
-	'/',
-	[
-		check('nombre', 'Sube un archivo').not().isEmpty(),
-		check('nombre_original', 'Sube un archivo').not().isEmpty(),
-	],
-	auth,
-	EnlacesController.nuevoEnlace,
+    '/',
+    [
+        check('nombre', 'Sube un archivo').not().isEmpty(),
+        check('nombre_original', 'Sube un archivo').not().isEmpty(),
+    ],
+    auth,
+    EnlacesController.nuevoEnlace
 );
 
 // GET
 router.get('/', EnlacesController.todosEnlaces);
 
-router.get(
-	'/:url',
-	EnlacesController.obtenerEnlace,
-	ArchivosController.eliminarArchivo,
-);
+router.get('/:url', EnlacesController.obtenerEnlace);
 // -------------------------------- //
 
 // ---- EXPORTACIONES ---- //
