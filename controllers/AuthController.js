@@ -42,7 +42,7 @@ exports.autenticarUsuario = async (req, res, next) => {
             },
             process.env.SECRET_JWT,
             {
-                expiresIn: '8h',
+                expiresIn: '7d',
             }
         );
 

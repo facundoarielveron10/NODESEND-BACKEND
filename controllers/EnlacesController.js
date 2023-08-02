@@ -72,12 +72,56 @@ exports.obtenerEnlace = async (req, res, next) => {
         }
 
         // RETORNAR EL ENLACE ENCONTRADO
-        res.json({ archivo: enlace.nombre });
+        res.json({ archivo: enlace.nombre, password: false });
 
         next();
     } catch (error) {
         res.status(404).json({ msg: 'Hubo un error al obtener el enlace' });
         console.log(error);
+    }
+};
+
+exports.tienePassword = async (req, res, next) => {
+    // OBTENER LA URL DEL ENLACE
+    const url = req.params.url;
+
+    try {
+        // VERIFICAR SI EXISTE EL ENLACE
+        const enlace = await Enlaces.findOne({ url: url });
+
+        if (!enlace) {
+            return res.status(404).json({ msg: 'Enlace no encontrado' });
+        }
+
+        if (enlace.password) {
+            return res.json({
+                password: true,
+                enlace: enlace.url,
+            });
+        }
+
+        next();
+    } catch (error) {
+        res.status(404).json({ msg: 'Hubo un error al obtener el enlace' });
+        console.log(error);
+    }
+};
+
+exports.verificarPassword = async (req, res, next) => {
+    //  EXTRAEMOS LOS DATOS
+    const { url } = req.params;
+    const { password } = req.body;
+
+    // OBTENEMOS EL ENLACE
+    const enlace = await Enlaces.findOne({ url });
+
+    // VERIFICAMOS EL PASSWORD
+    if (bcrypt.compareSync(password, enlace.password)) {
+        // PERMITIR LA DESCARGA DEL ARCHIVO
+        next();
+    } else {
+        // RETORNAMOS EL ERROR
+        return res.status(401).json({ msg: 'Password Incorrecto' });
     }
 };
 // -------------------------------- //

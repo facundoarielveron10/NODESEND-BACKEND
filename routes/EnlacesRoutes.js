@@ -24,10 +24,20 @@ router.post(
     EnlacesController.nuevoEnlace
 );
 
+router.post(
+    '/:url',
+    EnlacesController.verificarPassword,
+    EnlacesController.obtenerEnlace
+);
+
 // GET
 router.get('/', EnlacesController.todosEnlaces);
 
-router.get('/:url', EnlacesController.obtenerEnlace);
+router.get(
+    '/:url',
+    EnlacesController.tienePassword,
+    EnlacesController.obtenerEnlace
+);
 // -------------------------------- //
 
 // ---- EXPORTACIONES ---- //
